@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabiana Tecnologia</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ==========================================================================
+           CONFIGURAÇÕES GERAIS 
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box; /* Garante que padding e border não quebrem o tamanho calculado dos elementos */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0f172a; /* Tom de azul escuro moderno para o fundo */
+            color: #f8fafc;            /* Texto claro em tom off-white para legibilidade confortável */
+            line-height: 1.6;
+            overflow-x: hidden;        /* Trava a rolagem horizontal gerada pelos spans flutuando fora da tela */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;         /* Força o layout a preencher no mínimo 100% da altura do navegador */
+        }
+
+        /* ==========================================================================
+           HERO SECTION (ÁREA DE DESTAQUE PRINCIPAL)
+           ========================================================================== */
+        .hero {
+            flex: 1;                   /* Faz esta seção esticar dinamicamente, empurrando o rodapé para a base */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); /* Iluminação central de fundo */
+        }
+
+        /* Container que agrupa as letras do título principal */
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;           /* Permite que as palavras quebrem linha amigavelmente em telas menores */
+            justify-content: center;
+        }
+
+        /* Customização individual de cada letra do título animado */
+        .hero h1 span {
+            display: inline-block;
+            background: linear-gradient(to right, #38bdf8, #818cf8); /* Efeito gradiente moderno nas letras */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; /* Mascara o fundo transformando o texto em gradiente */
+            opacity: 0; /* Permanece invisível antes do início do delay da animação */
+            
+            /* Executa o fluxo de onda completo durando 5.5s e mantendo o estado final invisível */
+            animation: ondaFluxo 5.5s ease-in-out forwards;
+        }
+
+        /* Configuração de espaço manual separando as duas palavras no Flexbox */
+        .hero h1 .espaco {
+            width: 0.3em;
+        }
+
+        /* DELAYS SEQUENCIAIS: Adiciona 100ms de atraso a cada letra, gerando o movimento ondulatório */
+        .hero h1 span:nth-child(1)  { animation-delay: 0.1s; }
+        .hero h1 span:nth-child(2)  { animation-delay: 0.2s; }
+        .hero h1 span:nth-child(3)  { animation-delay: 0.3s; }
+        .hero h1 span:nth-child(4)  { animation-delay: 0.4s; }
+        .hero h1 span:nth-child(5)  { animation-delay: 0.5s; }
+        .hero h1 span:nth-child(6)  { animation-delay: 0.6s; }
+        .hero h1 span:nth-child(7)  { animation-delay: 0.7s; }
+        /* O nth-child(8) foi pulado de propósito pois é o elemento de espaço invisível */
+        .hero h1 span:nth-child(9)  { animation-delay: 0.8s; }
+        .hero h1 span:nth-child(10) { animation-delay: 0.9s; }
+        .hero h1 span:nth-child(11) { animation-delay: 1.0s; }
+        .hero h1 span:nth-child(12) { animation-delay: 1.1s; }
+        .hero h1 span:nth-child(13) { animation-delay: 1.2s; }
+        .hero h1 span:nth-child(14) { animation-delay: 1.3s; }
+        .hero h1 span:nth-child(15) { animation-delay: 1.4s; }
+        .hero h1 span:nth-child(16) { animation-delay: 1.5s; }
+        .hero h1 span:nth-child(17) { animation-delay: 1.6s; }
+        .hero h1 span:nth-child(18) { animation-delay: 1.7s; }
+
+        /* TIMELINE DA ANIMAÇÃO DO TÍTULO (Direita -> Centro -> Pausa 3s -> Esquerda) */
+        @keyframes ondaFluxo {
+            0% {
+                opacity: 0;
+                transform: translateX(150px) translateY(0); /* Inicia escondido fora do layout na direita */
+            }
+            15% {
+                opacity: 1;
+                transform: translateX(-10px) translateY(-25px); /* Desloca criando a elevação alta da onda */
+            }
+            22% {
+                opacity: 1;
+                transform: translateX(0) translateY(0); /* Amortece e centraliza na posição de leitura */
+            }
+            78% {
+                opacity: 1;
+                transform: translateX(0) translateY(0); /* Intervalo travado segurando o título por 3 segundos */
+            }
+            85% {
+                opacity: 1;
+                transform: translateX(10px) translateY(25px); /* Cria o declínio descendente para iniciar a saída */
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-150px) translateY(0); /* Desaparece deslizando para fora na lateral esquerda */
+            }
+        }
+
+        /* Estilização do bloco do parágrafo descritivo */
+        .hero p {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Customização do botão principal de conversão */
+        .cta-button {
+            display: inline-block;
+            background-color: #38bdf8;
+            color: #0f172a;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
+            margin-bottom: 3rem; /* Espaço adicional para separar o botão do slider */
+        }
+
+        /* Efeito visual ao passar o ponteiro do mouse sobre o botão */
+        .cta-button:hover {
+            background-color: #0ea5e9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+        }
+
+        /* ==========================================================================
+           MÓDULO DO SLIDER (SLIDESHOW DE IMAGENS)
+           ========================================================================== */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;          /* Largura máxima do carrossel */
+            height: 400px;             /* Altura fixa do carrossel */
+            overflow: hidden;          /* Recorta as imagens que estão fora do quadro visível */
+            border-radius: 16px;       /* Bordas arredondadas elegantes */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 2px solid #1e293b; /* Borda sutil combinando com o tema */
+        }
+
+        /* Estrutura interna que segura todas os slides lado a lado */
+        .slider-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.5s ease-in-out; /* Transição suave de deslizamento */
+        }
+
+        /* Customização de cada slide individual */
+        .slide {
+            min-width: 100%;           /* Garante que cada imagem ocupe exatamente 100% do container */
+            height: 100%;
+        }
+
+        /* Configuração de preenchimento inteligente da imagem dentro do bloco */
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;         /* Preenche o espaço cortando proporcionalmente sem distorcer */
+            display: block;
+        }
+
+        /* ==========================================================================
+           RODAPÉ E ANIMAÇÃO RECORRENTE DOS ÍCONES SOCIAIS
+           ========================================================================== */
+        footer {
+            background-color: #0b111e; /* Fundo mais denso para demarcar a base do site */
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid #1e293b;
+        }
+
+        /* Flexbox gerenciando o alinhamento centralizado dos links de mídias */
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;                 /* Afastamento padrão entre as bolhas sociais */
+        }
+
+        /* Formatação de círculo flutuante para os links de ícone */
+        .social-icons a {
+            color: #f8fafc;
+            font-size: 1.5rem;
+            text-decoration: none;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background-color: #1e293b;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            
+            /* Ativa a animação de flutuação em onda infinita */
+            animation: ondaIcone 2s ease-in-out infinite;
+        }
+
+        /* DELAYS SOCIAIS: Atrasa individualmente o ciclo de cada bolha criando o efeito de onda continuada */
+        .social-icons a:nth-child(1) { animation-delay: 0s; }
+        .social-icons a:nth-child(2) { animation-delay: 0.3s; }
+        .social-icons a:nth-child(3) { animation-delay: 0.6s; }
+
+        /* Filtros de cores institucionais ativados dinamicamente sob evento Hover */
+        .social-icons a.facebook:hover  { background-color: #1877f2; }
+        .social-icons a.instagram:hover { background-color: #e1306c; }
+        .social-icons a.whatsapp:hover  { background-color: #25d366; }
+
+        /* TIMELINE DO EFEITO DE ONDA VERTICAL DO RODAPÉ (Loop Contínuo) */
+        @keyframes ondaIcone {
+            0%, 100% {
+                transform: translateY(0); /* Posição inicial estável */
+            }
+            50% {
+                transform: translateY(-12px); /* Elevação suave correspondente ao topo da onda */
+            }
+        }
+
+        /* ==========================================================================
+           REGRAS DE MEDIA QUERIES (Ajustes de Responsividade para Celulares)
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem; /* Encolhe a fonte do título para não quebrar a tela mobile */
+            }
+            .hero p {
+                font-size: 1rem;   /* Adapta o texto base para telas menores */
+            }
+            .slider-container {
+                height: 250px;     /* Reduz a altura do carrossel em smartphones */
+            }
+            .social-icons {
+                gap: 1.5rem;       /* Compacta os ícones nas bordas das mídias móveis */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        // Inicializa o construtor da instância do VLibras acoplado na página
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
+    <section class="hero">
+        <h1>
+            <span>F</span><span>a</span><span>b</span><span>i</span><span>a</span><span>n</span><span>a</span><span class="espaco"></span><span>T</span><span>e</span><span>c</span><span>n</span><span>o</span><span>l</span><span>o</span><span>g</span><span>i</span><span>a</span>
+        </h1>
+        
+        <p>Inovação, segurança e soluções digitais sob medida para transformar o seu negócio e impulsionar seus resultados.</p>
+        
+        <a href="#" class="cta-button">Conheça Nossos Serviços</a>
+
+        <div class="slider-container" id="sliderContainer">
+            <div class="slider-wrapper" id="sliderWrapper">
+                <div class="slide">
+                    <img src="./imagem/conhecimento.jpg" alt="Conhecimento">
+                </div>
+                <div class="slide">
+                    <img src="./imagem/img2.jpg" alt="Tecnologia Avançada">
+                </div>
+                <div class="slide">
+                    <img src="./imagem/img1.jpg" alt="Serviços digitais">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="social-icons">
+            <a href="#" class="facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="whatsapp" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // Captura dos elementos estruturais do DOM
+        const wrapper = document.getElementById('sliderWrapper');
+        const container = document.getElementById('sliderContainer');
+        const slides = document.querySelectorAll('.slide');
+        
+        let index = 0;             // Armazena o índice do slide atualmente ativo
+        let sliderInterval;        // Guardará a instância ativa do temporizador (setInterval)
+        const totalSlides = slides.length;
+
+        // Função responsável por calcular e deslocar a esteira de slides
+        function moverSlider() {
+            index++;
+            if (index >= totalSlides) {
+                index = 0; // Se ultrapassar o último slide, retorna ao primeiro (looping infinito)
+            }
+            // Multiplica o índice por -100% para arrastar horizontalmente a esteira de imagens
+            wrapper.style.transform = `translateX(-${index * 100}%)`;
+        }
+
+        // Função para dar o play na transição automatizada a cada 2 segundos (2000ms)
+        function iniciarTransicao() {
+            sliderInterval = setInterval(moverSlider, 2000);
+        }
+
+        // Função para travar a transição, limpando o cronômetro da memória
+        function pausarTransicao() {
+            clearInterval(sliderInterval);
+        }
+
+        // GATILHOS DE EVENTOS DO MOUSE
+        // Quando o ponteiro entra no quadro do slider, limpa o loop (pausa)
+        container.addEventListener('mouseenter', pausarTransicao);
+
+        // Quando o ponteiro sai do quadro do slider, restabelece o intervalo (retoma)
+        container.addEventListener('mouseleave', iniciarTransicao);
+
+        // Dispara o carrossel assim que a página termina de renderizar
+        iniciarTransicao();
+    </script>
+
+</body>
+</html>
