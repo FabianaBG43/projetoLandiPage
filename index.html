@@ -32,13 +32,12 @@
            HERO SECTION (ÁREA DE DESTAQUE PRINCIPAL)
            ========================================================================== */
         .hero {
-            flex: 1;                   /* Faz esta seção esticar dinamicamente, empurrando o rodapé para a base */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 2rem;
+            padding: 4rem 2rem 2rem 2rem;
             background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); /* Iluminação central de fundo */
         }
 
@@ -184,6 +183,87 @@
         }
 
         /* ==========================================================================
+           NOVA SEÇÃO: CARDS DE SERVIÇOS
+           ========================================================================== */
+        .services-section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .services-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        /* Grid responsável pela distribuição inteligente e responsiva dos 4 cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Estrutura visual e animações de elevação do Card */
+        .card {
+            background-color: #1e293b;
+            border-radius: 12px;
+            overflow: hidden; /* IMPORTANTE: Necessário para conter o efeito de zoom dentro do card */
+            border: 1px solid #334155;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* Mudança visual no card sob estado de hover */
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+        }
+
+        /* Box limitador da proporção da imagem */
+        .card-image-box {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        /* Ajustes básicos da imagem interna e transição do zoom */
+        .card-image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease; /* Gera a velocidade do zoom */
+        }
+
+        /* EFEITO ZOOM: Aplica o aumento na escala interna da imagem quando o card recebe hover */
+        .card:hover .card-image-box img {
+            transform: scale(1.12); /* Amplia a imagem em 12% sem estourar as bordas */
+        }
+
+        /* Configurações textuais do corpo dos cards */
+        .card-content {
+            padding: 1.5rem;
+            text-align: left;
+        }
+
+        .card-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.6rem;
+            color: #38bdf8;
+        }
+
+        .card-content p {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+
+        /* ==========================================================================
            RODAPÉ E ANIMAÇÃO RECORRENTE DOS ÍCONES SOCIAIS
            ========================================================================== */
         footer {
@@ -191,6 +271,7 @@
             padding: 2rem;
             text-align: center;
             border-top: 1px solid #1e293b;
+            margin-top: auto;          /* Empurra o rodapé caso o conteúdo da página seja pequeno */
         }
 
         /* Flexbox gerenciando o alinhamento centralizado dos links de mídias */
@@ -251,6 +332,12 @@
             .slider-container {
                 height: 250px;     /* Reduz a altura do carrossel em smartphones */
             }
+            .services-section {
+                padding: 3rem 1rem;
+            }
+            .services-section h2 {
+                font-size: 2rem;
+            }
             .social-icons {
                 gap: 1.5rem;       /* Compacta os ícones nas bordas das mídias móveis */
             }
@@ -283,13 +370,59 @@
         <div class="slider-container" id="sliderContainer">
             <div class="slider-wrapper" id="sliderWrapper">
                 <div class="slide">
+                    <img src="./imagem/img3.jpg" alt="Tecnologia Integrada 1">
+                </div>
+                <div class="slide">
+                    <img src="./imagem/img2.jpg" alt="Soluções Corporativas 2">
+                </div>
+                <div class="slide">
+                    <img src="./imagem/img1.jpg" alt="Segurança Digital 3">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section">
+        <h2>Nossos Serviços</h2>
+        
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-image-box">
+                    <img src="./imagem/robo.jpg" alt="Infraestrutura">
+                </div>
+                <div class="card-content">
+                    <h3>Infraestrutura de TI</h3>
+                    <p>Planejamento, montagem e manutenção de servidores e cabeamento estruturado para alta performance empresarial.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image-box">
+                    <img src="./imagem/redes.jpg" alt="Redes">
+                </div>
+                <div class="card-content">
+                    <h3>Sistemas Personalizados</h3>
+                    <p>Desenvolvimento ágil de softwares, plataformas web e aplicativos focados na melhor experiência de uso.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-image-box">
                     <img src="./imagem/conhecimento.jpg" alt="Conhecimento">
                 </div>
-                <div class="slide">
-                    <img src="./imagem/img2.jpg" alt="Tecnologia Avançada">
+                <div class="card-content">
+                    <h3>Cibersegurança</h3>
+                    <p>Proteção robusta contra invasões virtuais, mitigação de vulnerabilidades e total adequação às normas da LGPD.</p>
                 </div>
-                <div class="slide">
-                    <img src="./imagem/img1.jpg" alt="Serviços digitais">
+            </div>
+
+            <div class="card">
+                <div class="card-image-box">
+                    <img src="./imagem/tecmundo.jpg" alt="Tecnologia Acessivel">
+                </div>
+                <div class="card-content">
+                    <h3>Suporte Especializado</h3>
+                    <p>Atendimento remoto ou presencial focado na resolução rápida de problemas e otimização de fluxos em nuvem.</p>
                 </div>
             </div>
         </div>
@@ -310,7 +443,7 @@
         const slides = document.querySelectorAll('.slide');
         
         let index = 0;             // Armazena o índice do slide atualmente ativo
-        let sliderInterval;        // Guardará a instância ativa do temporizador (setInterval)
+        let sliderInterval;        // Guardará a instância activa do temporizador (setInterval)
         const totalSlides = slides.length;
 
         // Função responsável por calcular e deslocar a esteira de slides
