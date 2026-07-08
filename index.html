@@ -264,6 +264,127 @@
         }
 
         /* ==========================================================================
+           MODAL PROMOCIONAL DE SAÍDA (EXIT-INTENT)
+           ========================================================================== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.85); /* Fundo escurecido e borrado */
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Garante que fique acima de tudo, inclusive do VLibras */
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        /* Quando o modal ganha a classe active, ele surge suavemente */
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background-color: #1e293b;
+            border: 2px solid #38bdf8;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(56, 189, 248, 0.2);
+            transform: scale(0.85);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); /* Efeito elástico ao abrir */
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        /* Botão para fechar no canto superior direito */
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: #f8fafc;
+        }
+
+        .modal-box i.gift-icon {
+            font-size: 3.5rem;
+            color: #818cf8;
+            margin-bottom: 1rem;
+            animation: balancoPresente 1.5s ease-in-out infinite alternate;
+        }
+
+        .modal-box h4 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #f8fafc;
+        }
+
+        .modal-box p.presente-frase {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Badge chamativo de 80% de Desconto */
+        .discount-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ef4444 0%, #b91c1c 100%);
+            color: #ffffff;
+            font-size: 2.5rem;
+            font-weight: 900;
+            padding: 0.5rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+            letter-spacing: -0.02em;
+        }
+
+        .modal-btn {
+            display: block;
+            width: 100%;
+            background-color: #38bdf8;
+            color: #0f172a;
+            padding: 1rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+        }
+
+        .modal-btn:hover {
+            background-color: #0ea5e9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5);
+        }
+
+        /* Animação para chamar a atenção do ícone de presente */
+        @keyframes balancoPresente {
+            0% { transform: rotate(-10deg) scale(1); }
+            100% { transform: rotate(10deg) scale(1.1); }
+        }
+
+        /* ==========================================================================
            RODAPÉ E ANIMAÇÃO RECORRENTE DOS ÍCONES SOCIAIS
            ========================================================================== */
         footer {
@@ -340,6 +461,12 @@
             }
             .social-icons {
                 gap: 1.5rem;       /* Compacta os ícones nas bordas das mídias móveis */
+            }
+            .modal-box {
+                padding: 2.5rem 1.5rem;
+            }
+            .discount-badge {
+                font-size: 2rem;
             }
         }
     </style>
@@ -428,6 +555,20 @@
         </div>
     </section>
 
+    <!-- ==========================================================================
+       ESTRUTURA DO MODAL PROMOCIONAL (EXIT-INTENT)
+       ========================================================================== -->
+    <div class="modal-overlay" id="exitModal">
+        <div class="modal-box">
+            <button class="modal-close" id="closeModalBtn" title="Fechar">&times;</button>
+            <i class="fa-solid fa-gift gift-icon"></i>
+            <h4>Não vá embora, temos um presente pra você!</h4>
+            <p class="presente-frase">Garante uma condição especial exclusiva antes de sair de nossa plataforma.</p>
+            <div class="discount-badge">80% DE DESCONTO</div>
+            <a href="#" class="modal-btn" id="claimOfferBtn">Garantir Meu Desconto</a>
+        </div>
+    </div>
+
     <footer>
         <div class="social-icons">
             <a href="#" class="facebook" title="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -437,7 +578,9 @@
     </footer>
 
     <script>
-        // Captura dos elementos estruturais do DOM
+        // ==========================================================================
+        // SCRIPT DO SLIDER CARROSSEL
+        // ==========================================================================
         const wrapper = document.getElementById('sliderWrapper');
         const container = document.getElementById('sliderContainer');
         const slides = document.querySelectorAll('.slide');
@@ -446,35 +589,67 @@
         let sliderInterval;        // Guardará a instância activa do temporizador (setInterval)
         const totalSlides = slides.length;
 
-        // Função responsável por calcular e deslocar a esteira de slides
         function moverSlider() {
             index++;
             if (index >= totalSlides) {
-                index = 0; // Se ultrapassar o último slide, retorna ao primeiro (looping infinito)
+                index = 0; 
             }
-            // Multiplica o índice por -100% para arrastar horizontalmente a esteira de imagens
             wrapper.style.transform = `translateX(-${index * 100}%)`;
         }
 
-        // Função para dar o play na transição automatizada a cada 2 segundos (2000ms)
         function iniciarTransicao() {
             sliderInterval = setInterval(moverSlider, 2000);
         }
 
-        // Função para travar a transição, limpando o cronômetro da memória
         function pausarTransicao() {
             clearInterval(sliderInterval);
         }
 
-        // GATILHOS DE EVENTOS DO MOUSE
-        // Quando o ponteiro entra no quadro do slider, limpa o loop (pausa)
         container.addEventListener('mouseenter', pausarTransicao);
-
-        // Quando o ponteiro sai do quadro do slider, restabelece o intervalo (retoma)
         container.addEventListener('mouseleave', iniciarTransicao);
-
-        // Dispara o carrossel assim que a página termina de renderizar
         iniciarTransicao();
+
+        // ==========================================================================
+        // SCRIPT DO MODAL DE INTENÇÃO DE SAÍDA (EXIT-INTENT)
+        // ==========================================================================
+        const exitModal = document.getElementById('exitModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const claimOfferBtn = document.getElementById('claimOfferBtn');
+
+        // Função responsável por abrir o modal promocional
+        function abrirModal() {
+            exitModal.classList.add('active');
+        }
+
+        // Função responsável por fechar o modal promocional
+        function fecharModal() {
+            exitModal.classList.remove('active');
+        }
+
+        // Monitora o movimento do mouse na página
+        document.addEventListener('mouseleave', function(event) {
+            // Se o ponteiro do mouse sair pelo topo da página (Y < 0)
+            if (event.clientY < 0) {
+                // Verifica se o modal já foi exibido nesta sessão do usuário
+                if (!sessionStorage.getItem('modalExibido')) {
+                    abrirModal();
+                    // Registra que o modal já foi visto para não incomodar novamente
+                    sessionStorage.setItem('modalExibido', 'true');
+                }
+            }
+        });
+
+        // Eventos para fechar o modal (no botão X ou clicando fora da caixa)
+        closeModalBtn.addEventListener('click', fecharModal);
+        
+        exitModal.addEventListener('click', function(event) {
+            if (event.target === exitModal) {
+                fecharModal();
+            }
+        });
+
+        // Evento opcional para fechar ao aceitar a oferta
+        claimOfferBtn.addEventListener('click', fecharModal);
     </script>
 
 </body>
